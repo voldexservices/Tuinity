@@ -110,7 +110,7 @@ index 829d4a7508e1656dbdc912096b7eafcf30cbb5b2..4d1ac4e6b61897fc03b091475ef7be3e
          }
  
 diff --git a/src/main/java/net/minecraft/server/ChunkCache.java b/src/main/java/net/minecraft/server/ChunkCache.java
-index 53c977513d3c243e6d06f252ed417c5d6db4034e..5add33eaee0f60d91972727ed5204941aaebbb20 100644
+index 53c977513d3c243e6d06f252ed417c5d6db4034e..ab8664ef2793fde0b3d7836281b4410648db83f0 100644
 --- a/src/main/java/net/minecraft/server/ChunkCache.java
 +++ b/src/main/java/net/minecraft/server/ChunkCache.java
 @@ -1,5 +1,6 @@
@@ -151,10 +151,10 @@ index 53c977513d3c243e6d06f252ed417c5d6db4034e..5add33eaee0f60d91972727ed5204941
              if (this.getWorldBorder().isCollidingOnBorderEdge(axisalignedbb)) {
 -                return true;
 +                if (checkOnly) {
++                    return true;
++                } else {
 +                    VoxelShapes.addBoxesTo(this.getWorldBorder().getCollisionShape(), list);
 +                    ret = true;
-+                } else {
-+                    return true;
 +                }
              }
          }
@@ -191,7 +191,7 @@ index 53c977513d3c243e6d06f252ed417c5d6db4034e..5add33eaee0f60d91972727ed5204941
                  }
  
                  ChunkSection[] sections = chunk.getSections();
-@@ -94,47 +113,102 @@ public class ChunkCache implements IBlockAccess, ICollisionAccess {
+@@ -94,47 +113,103 @@ public class ChunkCache implements IBlockAccess, ICollisionAccess {
                          continue;
                      }
  
@@ -271,7 +271,8 @@ index 53c977513d3c243e6d06f252ed417c5d6db4034e..5add33eaee0f60d91972727ed5204941
 +                                case (int)ChunkSection.KNOWN_FULL_BLOCK: {
 +                                    AxisAlignedBB box = new AxisAlignedBB(
 +                                            currX | chunkXGlobalPos, currY, currZ | chunkZGlobalPos,
-+                                            (currX | chunkXGlobalPos) + 1, currY + 1, (currZ | chunkZGlobalPos) + 1
++                                            (currX | chunkXGlobalPos) + 1, currY + 1, (currZ | chunkZGlobalPos) + 1,
++                                            false
 +                                    );
 +                                    if (predicate != null) {
 +                                        if (!box.voxelShapeIntersect(axisalignedbb)) {
@@ -330,7 +331,7 @@ index 53c977513d3c243e6d06f252ed417c5d6db4034e..5add33eaee0f60d91972727ed5204941
                                      }
                                  }
                              }
-@@ -144,7 +218,7 @@ public class ChunkCache implements IBlockAccess, ICollisionAccess {
+@@ -144,7 +219,7 @@ public class ChunkCache implements IBlockAccess, ICollisionAccess {
              }
          }
  
@@ -671,7 +672,7 @@ index db735e29d427cc8f4bd4ba54c7a44daf9fed9e61..636bbbc42466cb54c300352f400464fe
      }
  
 diff --git a/src/main/java/net/minecraft/server/WorldServer.java b/src/main/java/net/minecraft/server/WorldServer.java
-index 274a383be124c1abd42af07b359306c912ac5c50..fe8becc28c4339d193528a6c7919c535b349c241 100644
+index 274a383be124c1abd42af07b359306c912ac5c50..d66c3e0b784b0b758b1aa79a963f4cacd5cbe10a 100644
 --- a/src/main/java/net/minecraft/server/WorldServer.java
 +++ b/src/main/java/net/minecraft/server/WorldServer.java
 @@ -365,248 +365,15 @@ public class WorldServer extends World implements GeneratorAccessSeed {
@@ -950,10 +951,10 @@ index 274a383be124c1abd42af07b359306c912ac5c50..fe8becc28c4339d193528a6c7919c535
              if (this.getWorldBorder().isCollidingOnBorderEdge(axisalignedbb)) {
 -                VoxelShapes.addBoxesTo(this.getWorldBorder().getCollisionShape(), list);
 +                if (checkOnly) {
++                    return true;
++                } else {
 +                    VoxelShapes.addBoxesTo(this.getWorldBorder().getCollisionShape(), list);
 +                    ret = true;
-+                } else {
-+                    return true;
 +                }
              }
          }
@@ -989,7 +990,7 @@ index 274a383be124c1abd42af07b359306c912ac5c50..fe8becc28c4339d193528a6c7919c535
                      continue;
                  }
  
-@@ -712,46 +497,103 @@ public class WorldServer extends World implements GeneratorAccessSeed {
+@@ -712,46 +497,104 @@ public class WorldServer extends World implements GeneratorAccessSeed {
                          continue;
                      }
  
@@ -1069,7 +1070,8 @@ index 274a383be124c1abd42af07b359306c912ac5c50..fe8becc28c4339d193528a6c7919c535
 +                                case (int)ChunkSection.KNOWN_FULL_BLOCK: {
 +                                    AxisAlignedBB box = new AxisAlignedBB(
 +                                            currX | chunkXGlobalPos, currY, currZ | chunkZGlobalPos,
-+                                            (currX | chunkXGlobalPos) + 1, currY + 1, (currZ | chunkZGlobalPos) + 1
++                                            (currX | chunkXGlobalPos) + 1, currY + 1, (currZ | chunkZGlobalPos) + 1,
++                                            false
 +                                    );
 +                                    if (predicate != null) {
 +                                        if (!box.voxelShapeIntersect(axisalignedbb)) {
@@ -1128,7 +1130,7 @@ index 274a383be124c1abd42af07b359306c912ac5c50..fe8becc28c4339d193528a6c7919c535
                                  }
                              }
                          }
-@@ -759,6 +601,8 @@ public class WorldServer extends World implements GeneratorAccessSeed {
+@@ -759,6 +602,8 @@ public class WorldServer extends World implements GeneratorAccessSeed {
                  }
              }
          }
@@ -1137,7 +1139,7 @@ index 274a383be124c1abd42af07b359306c912ac5c50..fe8becc28c4339d193528a6c7919c535
      }
  
      public final void getEntityHardCollisions(@Nullable Entity entity, AxisAlignedBB axisalignedbb, @Nullable Predicate<Entity> predicate, List<AxisAlignedBB> list) {
-@@ -778,7 +622,9 @@ public class WorldServer extends World implements GeneratorAccessSeed {
+@@ -778,7 +623,9 @@ public class WorldServer extends World implements GeneratorAccessSeed {
                  Entity otherEntity = entities.get(i);
  
                  if ((entity == null || otherEntity.collisionBoxIsHard()) || entity.hardCollidesWith(otherEntity)) {
@@ -1148,7 +1150,7 @@ index 274a383be124c1abd42af07b359306c912ac5c50..fe8becc28c4339d193528a6c7919c535
                  }
              }
          } finally {
-@@ -787,10 +633,15 @@ public class WorldServer extends World implements GeneratorAccessSeed {
+@@ -787,10 +634,15 @@ public class WorldServer extends World implements GeneratorAccessSeed {
      }
  
      public final void getCollisions(@Nullable Entity entity, AxisAlignedBB axisalignedbb, List<AxisAlignedBB> list, boolean loadChunks) {
@@ -1165,7 +1167,7 @@ index 274a383be124c1abd42af07b359306c912ac5c50..fe8becc28c4339d193528a6c7919c535
      @Override
      public boolean getCubes(Entity entity) {
          return !this.hasAnyCollisions(entity, entity.getBoundingBox());
-@@ -805,7 +656,7 @@ public class WorldServer extends World implements GeneratorAccessSeed {
+@@ -805,7 +657,7 @@ public class WorldServer extends World implements GeneratorAccessSeed {
      @Override
      public boolean getCubes(@Nullable Entity entity, AxisAlignedBB axisalignedbb, Predicate<Entity> predicate) {
          if (entity instanceof EntityArmorStand && !entity.world.paperConfig.armorStandEntityLookups) return false;
