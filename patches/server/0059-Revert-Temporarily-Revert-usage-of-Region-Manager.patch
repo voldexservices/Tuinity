@@ -5,10 +5,10 @@ Subject: [PATCH] Revert Temporarily-Revert-usage-of-Region-Manager
 
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index b48c3a1c049cd9e6b40a4af32dd2323ca6fc9e71..25d42e7d41a95769bf7ecbd0e0c1b8ed716bb563 100644
+index 08518ff57b681595900df0e494fda352863dea35..fe4a7ed6fc67f41055a5167701b001874b41d0eb 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -1417,7 +1417,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -1418,7 +1418,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
                  // Tuinity - replace logic
                  worldserver.timings.doTick.startTiming(); // Spigot
                  worldserver.doTick(booleansupplier);
@@ -18,10 +18,10 @@ index b48c3a1c049cd9e6b40a4af32dd2323ca6fc9e71..25d42e7d41a95769bf7ecbd0e0c1b8ed
                  // Tuinity - replace logic
              } catch (Throwable throwable) {
 diff --git a/src/main/java/net/minecraft/server/PlayerChunkMap.java b/src/main/java/net/minecraft/server/PlayerChunkMap.java
-index 2a8455b813853693e20f368d3ece78d9424a413a..af501e04c398bd35ac9245e8cdac1ab928810c41 100644
+index 8286039c4e2db33b7782b9af13e6ac8f7a2ff484..688ed756d7128d1a5d1107f390cf0ea1615df27d 100644
 --- a/src/main/java/net/minecraft/server/PlayerChunkMap.java
 +++ b/src/main/java/net/minecraft/server/PlayerChunkMap.java
-@@ -472,7 +472,7 @@ public class PlayerChunkMap extends IChunkLoader implements PlayerChunk.d {
+@@ -473,7 +473,7 @@ public class PlayerChunkMap extends IChunkLoader implements PlayerChunk.d {
              });
          // Paper end - no-tick view distance
          // Tuinity start
@@ -30,7 +30,7 @@ index 2a8455b813853693e20f368d3ece78d9424a413a..af501e04c398bd35ac9245e8cdac1ab9
          // Tuinity end
          // Tuinity start - optimise checkDespawn
          this.playerGeneralAreaMap = new com.destroystokyo.paper.util.misc.PlayerAreaMap(this.pooledLinkedPlayerHashSets,
-@@ -827,7 +827,7 @@ public class PlayerChunkMap extends IChunkLoader implements PlayerChunk.d {
+@@ -828,7 +828,7 @@ public class PlayerChunkMap extends IChunkLoader implements PlayerChunk.d {
                      playerchunk.a(j);
                  } else {
                      playerchunk = new PlayerChunk(new ChunkCoordIntPair(i), j, this.lightEngine, this.p, this);
@@ -39,7 +39,7 @@ index 2a8455b813853693e20f368d3ece78d9424a413a..af501e04c398bd35ac9245e8cdac1ab9
                  }
  
                  this.updatingChunks.put(i, playerchunk);
-@@ -1104,7 +1104,7 @@ public class PlayerChunkMap extends IChunkLoader implements PlayerChunk.d {
+@@ -1105,7 +1105,7 @@ public class PlayerChunkMap extends IChunkLoader implements PlayerChunk.d {
                      this.lightEngine.queueUpdate();
                      this.worldLoadListener.a(ichunkaccess.getPos(), (ChunkStatus) null);
                  }
