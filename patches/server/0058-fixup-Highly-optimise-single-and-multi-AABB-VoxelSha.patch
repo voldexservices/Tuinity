@@ -20,10 +20,10 @@ index b321ad51635949d07b9b818f2940a31bca1a74e3..002abb3cbf0f742e685f2f043d2600de
              case 0:
                  return AxisAlignedBB.collideX(this.aabb, axisalignedbb, d0);
 diff --git a/src/main/java/net/minecraft/server/AxisAlignedBB.java b/src/main/java/net/minecraft/server/AxisAlignedBB.java
-index 6aa9f07336c23150ca72bdf3d45677e8d40ee4e9..d759a6c2b347d6f26f0f122cdd6b718c188633c5 100644
+index 20e9e06b36cda913809b46e71144d212322619aa..9fbb77e70d1abaf393fd6e4fd5cb124fcaedaef8 100644
 --- a/src/main/java/net/minecraft/server/AxisAlignedBB.java
 +++ b/src/main/java/net/minecraft/server/AxisAlignedBB.java
-@@ -45,9 +45,6 @@ public class AxisAlignedBB {
+@@ -54,9 +54,6 @@ public class AxisAlignedBB {
      }
  
      public static double collideX(AxisAlignedBB target, AxisAlignedBB source, double source_move) {
@@ -33,7 +33,7 @@ index 6aa9f07336c23150ca72bdf3d45677e8d40ee4e9..d759a6c2b347d6f26f0f122cdd6b718c
          if (Math.abs(source_move) < MCUtil.COLLISION_EPSILON) {
              return 0.0;
          }
-@@ -73,9 +70,6 @@ public class AxisAlignedBB {
+@@ -82,9 +79,6 @@ public class AxisAlignedBB {
      }
  
      public static double collideY(AxisAlignedBB target, AxisAlignedBB source, double source_move) {
@@ -43,7 +43,7 @@ index 6aa9f07336c23150ca72bdf3d45677e8d40ee4e9..d759a6c2b347d6f26f0f122cdd6b718c
          if (Math.abs(source_move) < MCUtil.COLLISION_EPSILON) {
              return 0.0;
          }
-@@ -100,9 +94,6 @@ public class AxisAlignedBB {
+@@ -109,9 +103,6 @@ public class AxisAlignedBB {
      }
  
      public static double collideZ(AxisAlignedBB target, AxisAlignedBB source, double source_move) {
@@ -110,7 +110,7 @@ index 829d4a7508e1656dbdc912096b7eafcf30cbb5b2..4d1ac4e6b61897fc03b091475ef7be3e
          }
  
 diff --git a/src/main/java/net/minecraft/server/ChunkCache.java b/src/main/java/net/minecraft/server/ChunkCache.java
-index 53c977513d3c243e6d06f252ed417c5d6db4034e..ab8664ef2793fde0b3d7836281b4410648db83f0 100644
+index e95fc7d98b70c84f3bf94440da977deb2d541e46..831aaffaa14fba0a7c464a05678ceb0f7f930214 100644
 --- a/src/main/java/net/minecraft/server/ChunkCache.java
 +++ b/src/main/java/net/minecraft/server/ChunkCache.java
 @@ -1,5 +1,6 @@
@@ -148,7 +148,7 @@ index 53c977513d3c243e6d06f252ed417c5d6db4034e..ab8664ef2793fde0b3d7836281b44106
 +        final boolean checkOnly = true;
 +
          if (entity != null) {
-             if (this.getWorldBorder().isCollidingOnBorderEdge(axisalignedbb)) {
+             if (this.getWorldBorder().isAlmostCollidingOnBorder(axisalignedbb)) {
 -                return true;
 +                if (checkOnly) {
 +                    return true;
@@ -417,7 +417,7 @@ index 33b8f4e0f09fdc41c8ea48b6ed77af199136ab92..ea943e44abb0ea9f7d471070fee14f6e
  
              if (!iblockdata.isAir()) {
 diff --git a/src/main/java/net/minecraft/server/Entity.java b/src/main/java/net/minecraft/server/Entity.java
-index 420557c27029e2464e3c02143a1724a9bf165268..152f3cc5b0a8dfd6207b8fa59716132964cc8f52 100644
+index 5e0daf190f54d45806005194cb70e79d05580620..677188661e15838a14631a28fdee52f5bacc5071 100644
 --- a/src/main/java/net/minecraft/server/Entity.java
 +++ b/src/main/java/net/minecraft/server/Entity.java
 @@ -785,7 +785,7 @@ public abstract class Entity implements INamableTileEntity, ICommandListener, Ke
@@ -470,7 +470,7 @@ index 420557c27029e2464e3c02143a1724a9bf165268..152f3cc5b0a8dfd6207b8fa597161329
  
              if (this.aG() && this.isBurning()) {
                  this.playSound(SoundEffects.ENTITY_GENERIC_EXTINGUISH_FIRE, 0.7F, 1.6F + (this.random.nextFloat() - this.random.nextFloat()) * 0.4F);
-@@ -1199,18 +1167,34 @@ public abstract class Entity implements INamableTileEntity, ICommandListener, Ke
+@@ -1202,18 +1170,34 @@ public abstract class Entity implements INamableTileEntity, ICommandListener, Ke
      }
  
      protected void checkBlockCollisions() {
@@ -508,7 +508,7 @@ index 420557c27029e2464e3c02143a1724a9bf165268..152f3cc5b0a8dfd6207b8fa597161329
                          try {
                              iblockdata.a(this.world, blockposition_mutableblockposition, this);
                              this.a(iblockdata);
-@@ -1224,6 +1208,11 @@ public abstract class Entity implements INamableTileEntity, ICommandListener, Ke
+@@ -1227,6 +1211,11 @@ public abstract class Entity implements INamableTileEntity, ICommandListener, Ke
                      }
                  }
              }
@@ -672,7 +672,7 @@ index db735e29d427cc8f4bd4ba54c7a44daf9fed9e61..636bbbc42466cb54c300352f400464fe
      }
  
 diff --git a/src/main/java/net/minecraft/server/WorldServer.java b/src/main/java/net/minecraft/server/WorldServer.java
-index 274a383be124c1abd42af07b359306c912ac5c50..d66c3e0b784b0b758b1aa79a963f4cacd5cbe10a 100644
+index 34fe82734212584e3b884bf82ca4456b7f10b175..94cd7b9832bf2be18bc81c1fa08d52c0bccd61ef 100644
 --- a/src/main/java/net/minecraft/server/WorldServer.java
 +++ b/src/main/java/net/minecraft/server/WorldServer.java
 @@ -365,248 +365,15 @@ public class WorldServer extends World implements GeneratorAccessSeed {
@@ -681,7 +681,7 @@ index 274a383be124c1abd42af07b359306c912ac5c50..d66c3e0b784b0b758b1aa79a963f4cac
      // Tuinity start - optimise collision
 -    public boolean collidesWithAnyBlockOrWorldBorder(@Nullable Entity entity, AxisAlignedBB axisalignedbb, boolean loadChunks) {
 -        if (entity != null) {
--            if (this.getWorldBorder().isCollidingOnBorderEdge(axisalignedbb)) {
+-            if (this.getWorldBorder().isAlmostCollidingOnBorder(axisalignedbb)) {
 -                return true;
 -            }
 -        }
@@ -804,7 +804,7 @@ index 274a383be124c1abd42af07b359306c912ac5c50..d66c3e0b784b0b758b1aa79a963f4cac
  
 -    public boolean collidesWithAnyBlockOrWorldBorder(@Nullable Entity entity, AxisAlignedBB axisalignedbb, boolean loadChunks, boolean collideWithUnloaded, java.util.function.BiPredicate<IBlockData, BlockPosition> predicate) {
 -        if (entity != null) {
--            if (this.getWorldBorder().isCollidingOnBorderEdge(axisalignedbb)) {
+-            if (this.getWorldBorder().isAlmostCollidingOnBorder(axisalignedbb)) {
 -                return true;
 -            }
 -        }
@@ -948,7 +948,7 @@ index 274a383be124c1abd42af07b359306c912ac5c50..d66c3e0b784b0b758b1aa79a963f4cac
 +        boolean ret = false;
 +
          if (entity != null) {
-             if (this.getWorldBorder().isCollidingOnBorderEdge(axisalignedbb)) {
+             if (this.getWorldBorder().isAlmostCollidingOnBorder(axisalignedbb)) {
 -                VoxelShapes.addBoxesTo(this.getWorldBorder().getCollisionShape(), list);
 +                if (checkOnly) {
 +                    return true;
