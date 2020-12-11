@@ -435,10 +435,10 @@ index 0000000000000000000000000000000000000000..6cae16cc32c49d1787b18f3f51788fe4
 +}
 diff --git a/src/main/java/com/tuinity/tuinity/chunk/light/SkyStarLightEngine.java b/src/main/java/com/tuinity/tuinity/chunk/light/SkyStarLightEngine.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..e780ae852a45916d5536b11df22886477daf1495
+index 0000000000000000000000000000000000000000..055f2e1a469830294767af8eb733e998d54596a5
 --- /dev/null
 +++ b/src/main/java/com/tuinity/tuinity/chunk/light/SkyStarLightEngine.java
-@@ -0,0 +1,357 @@
+@@ -0,0 +1,365 @@
 +package com.tuinity.tuinity.chunk.light;
 +
 +import net.minecraft.server.BlockPosition;
@@ -699,7 +699,15 @@ index 0000000000000000000000000000000000000000..e780ae852a45916d5536b11df2288647
 +            final int startY = highestNonEmptySection << 4 | 15;
 +            for (int currZ = minZ; currZ <= maxZ; ++currZ) {
 +                for (int currX = minX; currX <= maxX; ++currX) {
-+                    this.tryPropagateSkylight(world, currX, startY, currZ);
++                    final int end = this.tryPropagateSkylight(world, currX, startY, currZ);
++                    if (end == startY) {
++                        // we need to propagate this one ourselves.
++                        this.increaseQueue[this.increaseQueueInitialLength++] = (currX + (currZ << 6) + (startY << (6 + 6)) + this.coordinateOffset) |
++                                (15 << (6 + 6 + 9)) | // we know we're at full lit here
++                                ((Direction.NEGATIVE_Y.ordinal()) << (6 + 6 + 9 + 4)); // no need to check upwards, we know it's 15.
++                                // we know this block is air because the section is empty, so it's obviously not sidedly
++                                // transparent.
++                    }
 +                }
 +            }
 +        } // else: apparently the chunk is empty
