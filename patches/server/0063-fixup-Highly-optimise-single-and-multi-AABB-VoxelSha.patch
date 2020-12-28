@@ -20,7 +20,7 @@ index b321ad51635949d07b9b818f2940a31bca1a74e3..002abb3cbf0f742e685f2f043d2600de
              case 0:
                  return AxisAlignedBB.collideX(this.aabb, axisalignedbb, d0);
 diff --git a/src/main/java/net/minecraft/server/AxisAlignedBB.java b/src/main/java/net/minecraft/server/AxisAlignedBB.java
-index 20e9e06b36cda913809b46e71144d212322619aa..9fbb77e70d1abaf393fd6e4fd5cb124fcaedaef8 100644
+index acd009844099293befd28c5f1c20d947016fa19b..fd3bb6dfa6cc060e9785c22a9e61a4325c348e36 100644
 --- a/src/main/java/net/minecraft/server/AxisAlignedBB.java
 +++ b/src/main/java/net/minecraft/server/AxisAlignedBB.java
 @@ -54,9 +54,6 @@ public class AxisAlignedBB {
@@ -417,7 +417,7 @@ index 33b8f4e0f09fdc41c8ea48b6ed77af199136ab92..ea943e44abb0ea9f7d471070fee14f6e
  
              if (!iblockdata.isAir()) {
 diff --git a/src/main/java/net/minecraft/server/Entity.java b/src/main/java/net/minecraft/server/Entity.java
-index d6fc021a6d068be00682ef89eb48e6ca4d2f6fb0..a4cf9e17a450f1603d3d1ed111404afea6e1d219 100644
+index 4eda7e81ce4f600082e118e2401b37a362b31597..d43a843be591da1b34b37dc95d7d82549d9f56f4 100644
 --- a/src/main/java/net/minecraft/server/Entity.java
 +++ b/src/main/java/net/minecraft/server/Entity.java
 @@ -785,7 +785,7 @@ public abstract class Entity implements INamableTileEntity, ICommandListener, Ke
@@ -470,7 +470,7 @@ index d6fc021a6d068be00682ef89eb48e6ca4d2f6fb0..a4cf9e17a450f1603d3d1ed111404afe
  
              if (this.aG() && this.isBurning()) {
                  this.playSound(SoundEffects.ENTITY_GENERIC_EXTINGUISH_FIRE, 0.7F, 1.6F + (this.random.nextFloat() - this.random.nextFloat()) * 0.4F);
-@@ -1202,18 +1170,34 @@ public abstract class Entity implements INamableTileEntity, ICommandListener, Ke
+@@ -1213,18 +1181,34 @@ public abstract class Entity implements INamableTileEntity, ICommandListener, Ke
      }
  
      protected void checkBlockCollisions() {
@@ -508,7 +508,7 @@ index d6fc021a6d068be00682ef89eb48e6ca4d2f6fb0..a4cf9e17a450f1603d3d1ed111404afe
                          try {
                              iblockdata.a(this.world, blockposition_mutableblockposition, this);
                              this.a(iblockdata);
-@@ -1227,6 +1211,11 @@ public abstract class Entity implements INamableTileEntity, ICommandListener, Ke
+@@ -1238,6 +1222,11 @@ public abstract class Entity implements INamableTileEntity, ICommandListener, Ke
                      }
                  }
              }
