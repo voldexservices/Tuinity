@@ -1,11 +1,8 @@
 name: Build main
-
 on: [push]
-
 jobs:
   build:
-
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     strategy:
       matrix:
@@ -30,9 +27,5 @@ jobs:
         git config --global user.email "you@example.com"
         git config --global user.name "Your Name"
         git submodule update --init --recursive
-        ./tuinity jar
-        
-    - uses: actions/upload-artifact@v2
-      with:
-        name: Tuinity-JDK${{ matrix.java }}
-        path: tuinity-paperclip.jar
+        ./tuinity patch
+        ./tuinity build

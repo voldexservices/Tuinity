@@ -22,9 +22,18 @@
         <defaultGoal>install</defaultGoal>
         <finalName>${project.artifactId}</finalName>
     </build>
+
     <modules>
         <module>Tuinity-API</module>
         <module>Tuinity-Server</module>
         <module>Paper${file.separator}Paper-MojangAPI</module> <!-- We don't plan on patching this, so this hack is good enough. -->
     </modules>
+
+    <distributionManagement>
+        <repository>
+            <id>voldex-repo</id>
+            <url>http://m2.voldex.net/repository/voldex-deploy</url>
+        </repository>
+    </distributionManagement>
+
 </project>
