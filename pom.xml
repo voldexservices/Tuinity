@@ -7,6 +7,13 @@
     <packaging>pom</packaging>
     <name>Tuinity (Parent)</name>
 
+    <distributionManagement>
+        <repository>
+            <id>voldex-repo</id>
+            <url>https://m2.voldex.net/repository/voldex-deploy</url>
+        </repository>
+    </distributionManagement>
+
     <repositories>
         <repository>
             <id>central</id>
