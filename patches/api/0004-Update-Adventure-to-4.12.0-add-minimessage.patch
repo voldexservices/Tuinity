@@ -1,0 +1,54 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Loki Rautio <lokirautio@gmail.com>
+Date: Mon, 13 Mar 2023 20:11:46 -0500
+Subject: [PATCH] Update Adventure to 4.12.0, add minimessage
+
+
+diff --git a/pom.xml b/pom.xml
+index 6fd6066b16d4dbf8695be16ec8b2d135d4d04901..0fa9b6605497b52bf5bfb387c9319d805721f7ec 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -22,7 +22,7 @@
+         <maven.compiler.source>1.8</maven.compiler.source>
+         <maven.compiler.target>1.8</maven.compiler.target>
+         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+-        <adventure.version>4.7.0</adventure.version> <!-- Paper - When updating this make sure to update the linked JavaDocs on the homepage as well! -->
++        <adventure.version>4.12.0</adventure.version> <!-- Paper - When updating this make sure to update the linked JavaDocs on the homepage as well! -->
+     </properties>
+ 
+     <repositories>
+@@ -52,6 +52,10 @@
+             <groupId>net.kyori</groupId>
+             <artifactId>adventure-api</artifactId>
+         </dependency>
++        <dependency>
++            <groupId>net.kyori</groupId>
++            <artifactId>adventure-text-minimessage</artifactId>
++        </dependency>
+         <dependency>
+             <groupId>net.kyori</groupId>
+             <artifactId>adventure-text-serializer-gson</artifactId>
+@@ -64,6 +68,10 @@
+             <groupId>net.kyori</groupId>
+             <artifactId>adventure-text-serializer-plain</artifactId>
+         </dependency>
++        <dependency>
++            <groupId>net.kyori</groupId>
++            <artifactId>adventure-text-logger-slf4j</artifactId>
++        </dependency>
+         <!-- Paper end -->
+         <dependency>
+             <groupId>it.unimi.dsi</groupId>
+@@ -181,6 +189,12 @@
+             <artifactId>asm-commons</artifactId>
+             <version>9.0</version>
+         </dependency>
++        <dependency>
++            <groupId>org.checkerframework</groupId>
++            <artifactId>checker-qual</artifactId>
++            <version>3.32.0</version>
++            <scope>provided</scope>
++        </dependency>
+     </dependencies>
+ 
+     <build>
